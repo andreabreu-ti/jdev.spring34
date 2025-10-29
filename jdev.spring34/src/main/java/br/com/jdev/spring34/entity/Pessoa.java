@@ -10,17 +10,18 @@ import lombok.Data;
 
 @Entity
 @Data
-public class Pessoa implements Serializable{
+public class Pessoa implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
+
 	private String nome;
-	
+
 	private String sobrenome;
 
-	
+	private Integer idade;
+
 }
