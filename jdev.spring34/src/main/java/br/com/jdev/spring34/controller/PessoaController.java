@@ -1,8 +1,11 @@
 package br.com.jdev.spring34.controller;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -21,23 +24,34 @@ public class PessoaController {
 	 * @return
 	 */
 	@GetMapping("/pessoa")
-	public String inicio() {
-		return "cadastro/pessoa";
+	public ModelAndView inicio() {
+
+		ModelAndView modelAndView = new ModelAndView("cadastro/pessoa");
+		modelAndView.addObject("pessoaobj", new Pessoa());
+		return modelAndView;
 	}
 
 	/**
 	 * Método para salvar pessoa
+	 * 
 	 * @param pessoa
 	 * @return
 	 */
-	@PostMapping(value = "/salvarpessoa")
-	public String salvar(Pessoa pessoa) {
+	@PostMapping(value = "*/salvarpessoa")
+	public ModelAndView salvar(Pessoa pessoa) {
 		pessoaRepository.save(pessoa);
-		return "cadastro/pessoa";
+
+		ModelAndView andView = new ModelAndView("cadastro/pessoa");
+		Iterable<Pessoa> pessoasIt = pessoaRepository.findAll();
+		andView.addObject("pessoas", pessoasIt);
+		andView.addObject("pessoaobj", new Pessoa());
+
+		return andView;
 	}
-	
+
 	/**
 	 * Método para listar pessoas
+	 * 
 	 * @return
 	 */
 	@GetMapping("/listapessoas")
@@ -45,17 +59,24 @@ public class PessoaController {
 		ModelAndView andView = new ModelAndView("cadastro/pessoa");
 		Iterable<Pessoa> pessoasIt = pessoaRepository.findAll();
 		andView.addObject("pessoas", pessoasIt);
+		andView.addObject("pessoaobj", new Pessoa());
 		return andView;
 	}
+
+	/**
+	 * 
+	 * @param idpessoa
+	 * @return
+	 */
+	@GetMapping("/editar/{idpessoa}")
+	public ModelAndView editar(@PathVariable Long idpessoa) {
+
+		Optional<Pessoa> pessoa = pessoaRepository.findById(idpessoa);
+
+		ModelAndView modelAndView = new ModelAndView("cadastro/pessoa");
+		modelAndView.addObject("pessoaobj", pessoa.get());
+		return modelAndView;
+
+	}
+
 }
-
-
-
-
-
-
-
-
-
-
-
