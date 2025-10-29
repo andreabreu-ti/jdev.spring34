@@ -30,10 +30,23 @@ Cadastro de Pessoas
 		<input name ="idade" th:field="*{idade}">
 		
 		<input class="waves-effect waves-light btn" type="submit" value="Salvar">
+		
 	</form>
 	
+	<br/>
+	<br/>
 	<a href="/listapessoas">Listar</a>
+	<br/>
+	<br/>
 	
+	<form action="pesquisarpessoa" method="post">
+		<label>Pesquisar por nome</label>
+		<input name="nomepesquisa">
+		<input class="waves-effect waves-light btn" type="submit" value="Buscar">
+	</form>
+	
+	<br/>
+	<br/>
 	<table>
 		<tr th:each = "pessoa : ${pessoas}">
 			<td th:text = "${pessoa.id}"></td>

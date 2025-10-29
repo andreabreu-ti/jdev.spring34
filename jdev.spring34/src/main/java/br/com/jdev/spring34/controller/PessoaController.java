@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import br.com.jdev.spring34.entity.Pessoa;
@@ -79,19 +80,37 @@ public class PessoaController {
 		return modelAndView;
 
 	}
-	
+
+	/**
+	 * Método para excluir pessoa por ID
+	 * 
+	 * @param idpessoa
+	 * @return
+	 */
 	@GetMapping("/excluir/{idpessoa}")
 	public ModelAndView excluir(@PathVariable Long idpessoa) {
-		
+
 		pessoaRepository.deleteById(idpessoa);
-		
+
 		ModelAndView modelAndView = new ModelAndView("cadastro/pessoa");
 		modelAndView.addObject("pessoas", pessoaRepository.findAll());
 		modelAndView.addObject("pessoaobj", new Pessoa());
 		return modelAndView;
-		
+
 	}
-	
-	
+
+	/**
+	 * Método para pesquisar pessoa por nome
+	 * 
+	 * @param nomepesquisa
+	 * @return
+	 */
+	@PostMapping("/pesquisarpessoa")
+	public ModelAndView pesquisar(@RequestParam("nomepesquisa") String nomepesquisa) {
+		ModelAndView modelAndView = new ModelAndView("cadastro/pessoa");
+		modelAndView.addObject("pessoas", pessoaRepository.findPessoaByName(nomepesquisa));
+		modelAndView.addObject("pessoaobj", new Pessoa());
+		return modelAndView;
+	}
 
 }
