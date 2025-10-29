@@ -64,6 +64,7 @@ public class PessoaController {
 	}
 
 	/**
+	 * Método para editar pessoas
 	 * 
 	 * @param idpessoa
 	 * @return
@@ -78,5 +79,19 @@ public class PessoaController {
 		return modelAndView;
 
 	}
+	
+	@GetMapping("/excluir/{idpessoa}")
+	public ModelAndView excluir(@PathVariable Long idpessoa) {
+		
+		pessoaRepository.deleteById(idpessoa);
+		
+		ModelAndView modelAndView = new ModelAndView("cadastro/pessoa");
+		modelAndView.addObject("pessoas", pessoaRepository.findAll());
+		modelAndView.addObject("pessoaobj", new Pessoa());
+		return modelAndView;
+		
+	}
+	
+	
 
 }
